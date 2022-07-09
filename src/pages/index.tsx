@@ -17,8 +17,6 @@ export function Home() {
 
     return (
         <div className="wrapper">
-            
-
             <main>
                 <ul className="container__cards">
                     {

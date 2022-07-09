@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { IProduct } from "../types/Products";
 
 interface ICartProviderProps {
@@ -22,36 +22,27 @@ export function CartProvider({children}: ICartProviderProps) {
     const [cart, setCart] = useState<IProduct[]>([])
     const [cartItemsAmount, setCartItemsAmount] = useState<ICartItemsAmount[]>([])
 
-    async function addProduct(productId: number) {
-        try {
-            const response = await fetch('http://localhost:3000/products')  
-            const responseJson = await response.json()
-            const product = responseJson.filter((product: IProduct) => product.id === productId)[0]
-            console.log(product)
+    useEffect(() => {
+        localStorage.setItem('@luisshoes:cart', JSON.stringify(cartItemsAmount))
+    }, [cartItemsAmount])
 
-            // setCart([...cart, product])
-
-            if (cartItemsAmount.length) {
-                const itemAmount = cartItemsAmount.filter(item => productId === item.id)[0]
-                if (itemAmount) {
-                    const item = {id: itemAmount.id, amount: itemAmount.amount++}
-                    setCartItemsAmount([...cartItemsAmount, item])
+    function addProduct(productId: number) {
+        const hasItemAmount = cartItemsAmount.filter(item => productId === item.id).length
+        if (hasItemAmount) {
+            const newCartItemsAmount = cartItemsAmount.map(item => {
+                if (item.id === productId) {
+                    return {...item, amount: item.amount += 1}
                 } else {
-                    const item = {id: product.id, amount: 1}
-                    setCartItemsAmount([item])
+                    return item
                 }
-            } else {
-                const item = {id: product.id, amount: 1}
-                setCartItemsAmount([...cartItemsAmount, item])
-            }
-            console.log(cartItemsAmount)
-            // localStorage.setItem('@luisshoes:cart', JSON.stringify(cart))
-            
-
-        } catch (error){
-            console.log('Error em adicionar produto: ' + error)
+            })
+            setCartItemsAmount(newCartItemsAmount)
+            console.log('Entrou aqui')
+        } else {
+            const item = {id: productId, amount: 1}
+            setCartItemsAmount([...cartItemsAmount, item])
+            console.log('Entrou aquiaaa')
         }
-        
     }
 
     return (
