@@ -9,8 +9,8 @@ function App() {
     return (
         
         <>
-            <Header />
             <CartProvider>
+                <Header />
                 <BrowserRouter>
                     <Routes>
                         <Route path='/' element={<Home />} />                                

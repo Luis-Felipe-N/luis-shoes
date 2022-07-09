@@ -23,7 +23,9 @@ export function CartProvider({children}: ICartProviderProps) {
     const [cartItemsAmount, setCartItemsAmount] = useState<ICartItemsAmount[]>([])
 
     useEffect(() => {
-        localStorage.setItem('@luisshoes:cart', JSON.stringify(cartItemsAmount))
+        if (cartItemsAmount.length) {
+            localStorage.setItem('@luisshoes:cart', JSON.stringify(cartItemsAmount))
+        }
     }, [cartItemsAmount])
 
     function addProduct(productId: number) {
