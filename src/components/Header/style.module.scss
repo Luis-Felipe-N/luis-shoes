@@ -1,6 +1,4 @@
 .header {
-    // max-width: 70rem;
-    // margin-inline: auto;
     height: 6rem;
     display: flex;
     align-items: center;
@@ -8,5 +6,13 @@
 
     h1 {
         text-transform: uppercase;
+    }
+
+    > a {
+        color: var(--white);
+        // text-align:;
+        display: flex;
+        gap: .5rem;
+        text-align: right;
     }
 }

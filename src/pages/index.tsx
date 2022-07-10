@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../components/Card";
+import { useCart } from "../components/hooks/useCart";
 import { IProduct } from "../components/types/Products";
 
 export function Home() {
